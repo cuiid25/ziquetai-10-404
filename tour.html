@@ -1,0 +1,572 @@
+<div id="ziquetai-tour" class="zt-tour" aria-label="紫阙台10-404沉浸式整屋家装漫游">
+  <div class="zt-stage" id="zt-stage">
+    <img class="zt-scene zt-scene-a is-active" id="zt-scene-a" alt="" draggable="false">
+    <img class="zt-scene zt-scene-b" id="zt-scene-b" alt="" draggable="false">
+    <div class="zt-shade" aria-hidden="true"></div>
+
+    <header class="zt-header">
+      <div class="zt-brand">
+        <span class="zt-kicker">ZI QUE TAI · 10-404</span>
+        <span class="zt-brand-name">全屋沉浸漫游</span>
+      </div>
+      <div class="zt-actions">
+        <button type="button" class="zt-action" id="zt-auto" aria-pressed="false">自动巡游</button>
+        <button type="button" class="zt-action" id="zt-plan-toggle" aria-expanded="false">平面导航</button>
+        <button type="button" class="zt-action" id="zt-fullscreen">全屏参观</button>
+      </div>
+    </header>
+
+    <section class="zt-copy" aria-live="polite">
+      <div class="zt-count"><span id="zt-index">01</span> / <span id="zt-total">13</span></div>
+      <h1 id="zt-title">入户玄关</h1>
+      <p id="zt-description"></p>
+      <div class="zt-materials" id="zt-materials"></div>
+    </section>
+
+    <div class="zt-hotspots" id="zt-hotspots" aria-label="空间跳转点"></div>
+
+    <button type="button" class="zt-arrow zt-prev" id="zt-prev" aria-label="上一个空间">‹</button>
+    <button type="button" class="zt-arrow zt-next" id="zt-next" aria-label="下一个空间">›</button>
+
+    <div class="zt-look-hint" id="zt-look-hint">拖动画面环视 · 点击圆点进入下一空间</div>
+
+    <aside class="zt-plan" id="zt-plan" aria-hidden="true">
+      <div class="zt-plan-head">
+        <div>
+          <span class="zt-kicker">FLOOR NAVIGATION</span>
+          <strong>按原平面关系选空间</strong>
+        </div>
+        <button type="button" class="zt-plan-close" id="zt-plan-close" aria-label="关闭平面导航">×</button>
+      </div>
+      <div class="zt-plan-canvas">
+        <img src="assets/designer-plan.jpg" alt="紫阙台10-404设计师平面布置图">
+        <div id="zt-plan-points"></div>
+      </div>
+      <p class="zt-plan-note">效果图用于空间氛围与材质方向确认；墙体、门洞和施工尺寸仍以原始 CAD 与最终施工图为准。</p>
+    </aside>
+
+    <nav class="zt-dock" id="zt-dock" aria-label="房间列表"></nav>
+    <div class="zt-progress"><span id="zt-progress"></span></div>
+  </div>
+</div>
+
+<style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #1c1813;
+  }
+
+  #ziquetai-tour {
+    --zt-ivory: #f5efe4;
+    --zt-ink: #17140f;
+    --zt-glass: rgba(20, 17, 13, .58);
+    --zt-line: rgba(255, 255, 255, .26);
+    --zt-soft: rgba(255, 255, 255, .72);
+    width: 100%;
+    color: var(--zt-ivory);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+
+  #ziquetai-tour * { box-sizing: border-box; }
+
+  #ziquetai-tour .zt-stage {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 620px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #1c1813;
+    touch-action: none;
+    user-select: none;
+  }
+
+  #ziquetai-tour .zt-scene {
+    position: absolute;
+    inset: -4%;
+    width: 108%;
+    height: 108%;
+    object-fit: cover;
+    opacity: 0;
+    transform: translate3d(var(--pan-x, 0%), var(--pan-y, 0%), 0) scale(1.055);
+    transition: opacity .9s ease, transform 1.2s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+    pointer-events: none;
+  }
+
+  #ziquetai-tour .zt-scene.is-active { opacity: 1; }
+  #ziquetai-tour .zt-scene.is-drifting { animation: zt-drift 16s ease-in-out infinite alternate; }
+
+  @keyframes zt-drift {
+    from { transform: translate3d(-1.1%, -.4%, 0) scale(1.07); }
+    to { transform: translate3d(1.1%, .35%, 0) scale(1.09); }
+  }
+
+  #ziquetai-tour .zt-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(7,6,4,.55) 0%, transparent 23%),
+      linear-gradient(90deg, rgba(7,6,4,.50) 0%, transparent 47%),
+      linear-gradient(0deg, rgba(7,6,4,.72) 0%, transparent 34%);
+  }
+
+  #ziquetai-tour .zt-header {
+    position: absolute;
+    z-index: 8;
+    inset: 0 0 auto 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 30px;
+    pointer-events: none;
+  }
+
+  #ziquetai-tour .zt-brand { display: grid; gap: 3px; }
+  #ziquetai-tour .zt-kicker {
+    font-size: 11px;
+    letter-spacing: .18em;
+    opacity: .72;
+  }
+  #ziquetai-tour .zt-brand-name { font-size: 16px; font-weight: 500; letter-spacing: .08em; }
+  #ziquetai-tour .zt-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; pointer-events: auto; }
+  #ziquetai-tour button { font: inherit; }
+  #ziquetai-tour .zt-action,
+  #ziquetai-tour .zt-plan-close {
+    border: 1px solid var(--zt-line);
+    background: var(--zt-glass);
+    color: var(--zt-ivory);
+    border-radius: 999px;
+    min-height: 38px;
+    padding: 0 15px;
+    cursor: pointer;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  #ziquetai-tour .zt-action:hover,
+  #ziquetai-tour .zt-action[aria-pressed="true"] { background: rgba(245,239,228,.20); }
+
+  #ziquetai-tour .zt-copy {
+    position: absolute;
+    z-index: 5;
+    left: clamp(24px, 5vw, 76px);
+    bottom: 126px;
+    max-width: min(580px, 63vw);
+    pointer-events: none;
+  }
+  #ziquetai-tour .zt-count { font-size: 12px; letter-spacing: .17em; opacity: .74; }
+  #ziquetai-tour .zt-copy h1 {
+    margin: 8px 0 9px;
+    font-size: clamp(34px, 5vw, 70px);
+    line-height: 1.04;
+    font-weight: 400;
+    letter-spacing: -.025em;
+    text-shadow: 0 2px 28px rgba(0,0,0,.24);
+  }
+  #ziquetai-tour .zt-copy p {
+    margin: 0;
+    max-width: 560px;
+    font-size: clamp(13px, 1.15vw, 16px);
+    line-height: 1.7;
+    color: var(--zt-soft);
+    text-shadow: 0 1px 16px rgba(0,0,0,.5);
+  }
+  #ziquetai-tour .zt-materials { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  #ziquetai-tour .zt-materials span {
+    padding: 5px 9px;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    background: rgba(16,13,10,.28);
+    font-size: 11px;
+    color: rgba(255,255,255,.78);
+    backdrop-filter: blur(10px);
+  }
+
+  #ziquetai-tour .zt-arrow {
+    position: absolute;
+    z-index: 7;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    margin-top: -23px;
+    border: 1px solid var(--zt-line);
+    border-radius: 50%;
+    background: rgba(16,13,10,.32);
+    color: var(--zt-ivory);
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+  }
+  #ziquetai-tour .zt-prev { left: 20px; }
+  #ziquetai-tour .zt-next { right: 20px; }
+
+  #ziquetai-tour .zt-hotspots { position: absolute; inset: 82px 70px 112px; z-index: 6; pointer-events: none; }
+  #ziquetai-tour .zt-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: grid;
+    justify-items: center;
+    gap: 7px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--zt-ivory);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  #ziquetai-tour .zt-hotspot-dot {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,.72);
+    border-radius: 50%;
+    background: rgba(18,15,11,.48);
+    box-shadow: 0 0 0 8px rgba(255,255,255,.10);
+    font-size: 20px;
+    animation: zt-pulse 2.4s ease-in-out infinite;
+    backdrop-filter: blur(8px);
+  }
+  #ziquetai-tour .zt-hotspot-label {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(18,15,11,.56);
+    font-size: 12px;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+  }
+  @keyframes zt-pulse { 50% { box-shadow: 0 0 0 13px rgba(255,255,255,.03); } }
+
+  #ziquetai-tour .zt-look-hint {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    top: 84px;
+    transform: translateX(-50%);
+    padding: 8px 13px;
+    border-radius: 999px;
+    background: rgba(16,13,10,.36);
+    color: rgba(255,255,255,.76);
+    font-size: 11px;
+    backdrop-filter: blur(10px);
+    transition: opacity .5s ease;
+    pointer-events: none;
+  }
+
+  #ziquetai-tour .zt-dock {
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    display: flex;
+    gap: 7px;
+    padding: 0 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    pointer-events: auto;
+  }
+  #ziquetai-tour .zt-dock::-webkit-scrollbar { display: none; }
+  #ziquetai-tour .zt-room {
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255,255,255,.17);
+    border-radius: 999px;
+    background: rgba(16,13,10,.46);
+    color: rgba(255,255,255,.72);
+    cursor: pointer;
+    white-space: nowrap;
+    backdrop-filter: blur(14px);
+  }
+  #ziquetai-tour .zt-room.is-active { background: var(--zt-ivory); color: var(--zt-ink); border-color: transparent; }
+  #ziquetai-tour .zt-progress { position: absolute; z-index: 9; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.12); }
+  #ziquetai-tour .zt-progress span { display: block; width: 0; height: 100%; background: var(--zt-ivory); transition: width .35s ease; }
+
+  #ziquetai-tour .zt-plan {
+    position: absolute;
+    z-index: 12;
+    top: 0;
+    right: 0;
+    width: min(560px, 92vw);
+    height: 100%;
+    padding: 24px;
+    background: rgba(22,19,15,.92);
+    backdrop-filter: blur(24px);
+    transform: translateX(102%);
+    transition: transform .45s cubic-bezier(.2,.8,.2,1);
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+  #ziquetai-tour .zt-plan.is-open { transform: translateX(0); }
+  #ziquetai-tour .zt-plan-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+  #ziquetai-tour .zt-plan-head > div { display: grid; gap: 5px; }
+  #ziquetai-tour .zt-plan-close { width: 40px; padding: 0; font-size: 25px; }
+  #ziquetai-tour .zt-plan-canvas { position: relative; width: 100%; background: #f1eee7; border-radius: 18px; overflow: hidden; }
+  #ziquetai-tour .zt-plan-canvas img { display: block; width: 100%; height: auto; opacity: .9; }
+  #ziquetai-tour .zt-map-point {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #8f6b43;
+    box-shadow: 0 2px 10px rgba(0,0,0,.28);
+    cursor: pointer;
+  }
+  #ziquetai-tour .zt-map-point.is-active { width: 24px; height: 24px; background: #71805d; }
+  #ziquetai-tour .zt-map-point::after {
+    content: attr(aria-label);
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: rgba(20,17,13,.88);
+    color: #fff;
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #ziquetai-tour .zt-map-point:hover::after,
+  #ziquetai-tour .zt-map-point:focus-visible::after { opacity: 1; }
+  #ziquetai-tour .zt-plan-note { margin: 14px 2px 0; color: rgba(255,255,255,.62); font-size: 12px; line-height: 1.7; }
+
+  @media (max-width: 720px) {
+    #ziquetai-tour .zt-stage { min-height: 560px; }
+    #ziquetai-tour .zt-header { padding: 16px; align-items: flex-start; }
+    #ziquetai-tour .zt-kicker { font-size: 9px; letter-spacing: .08em; white-space: nowrap; }
+    #ziquetai-tour .zt-brand-name { font-size: 14px; }
+    #ziquetai-tour .zt-actions { max-width: 205px; gap: 5px; }
+    #ziquetai-tour .zt-action { min-height: 34px; padding: 0 10px; font-size: 11px; }
+    #ziquetai-tour .zt-copy { left: 20px; bottom: 118px; max-width: calc(100vw - 40px); }
+    #ziquetai-tour .zt-copy h1 { font-size: 37px; }
+    #ziquetai-tour .zt-copy p { max-width: 88vw; line-height: 1.55; }
+    #ziquetai-tour .zt-materials { display: none; }
+    #ziquetai-tour .zt-arrow { top: 48%; width: 40px; height: 40px; font-size: 28px; }
+    #ziquetai-tour .zt-prev { left: 10px; }
+    #ziquetai-tour .zt-next { right: 10px; }
+    #ziquetai-tour .zt-hotspots { inset: 86px 28px 120px; }
+    #ziquetai-tour .zt-hotspot-label { display: none; }
+    #ziquetai-tour .zt-hotspot-dot { width: 36px; height: 36px; }
+    #ziquetai-tour .zt-look-hint { top: 72px; }
+    #ziquetai-tour .zt-dock { padding: 0 14px; bottom: 16px; }
+    #ziquetai-tour .zt-room { min-height: 39px; padding: 0 12px; font-size: 12px; }
+    #ziquetai-tour .zt-plan { padding: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #ziquetai-tour .zt-scene,
+    #ziquetai-tour .zt-plan,
+    #ziquetai-tour .zt-progress span { transition-duration: .01ms; }
+    #ziquetai-tour .zt-scene.is-drifting,
+    #ziquetai-tour .zt-hotspot-dot { animation: none; }
+  }
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('ziquetai-tour');
+  if (!root) return;
+
+  const scenes = [
+    { id:'entry', name:'入户玄关', zone:'公共区', image:'assets/tour-web/entry.jpg', map:[67,54], desc:'木饰面收纳贴墙展开，中央过道完整保留；从入户即可看见餐厅与客厅的自然采光。', mats:['浅橡木饰面','暖灰石材','烟熏胡桃木'], links:[['dining',72,58,'进入餐厅'],['living',83,42,'前往客厅']] },
+    { id:'dining', name:'餐厅', zone:'公共区', image:'assets/tour-web/dining.jpg', map:[50,64], desc:'六人餐桌连接客厅与厨房，整墙餐边柜承担收纳，灯光与木色保持克制。', mats:['烟熏胡桃木','浅橡木柜体','奶油吊灯'], links:[['living',24,45,'进入客厅'],['kitchen',76,46,'进入厨房']] },
+    { id:'living', name:'客厅', zone:'公共区', image:'assets/tour-web/living.jpg', map:[59,28], desc:'以木饰面电视墙、奶油模块沙发和低饱和织物建立主空间，通往北阳台的路线保持通透。', mats:['胡桃木饰面','奶油织物','暖灰石材'], links:[['north-balcony',52,43,'走向北阳台'],['dining',18,70,'返回餐厅']] },
+    { id:'north-balcony', name:'北向休闲阳台', zone:'公共区', image:'assets/tour-web/north-balcony.jpg', map:[58,8], desc:'长条浅进深阳台以轻量座椅和端景植物为主，不堆砌家具，保留整面采光。', mats:['暖灰石材','浅橡木花箱','户外编织'], links:[['living',17,52,'回到客厅']] },
+    { id:'elder-bedroom', name:'老人房', zone:'长辈套房', image:'assets/tour-web/elder-bedroom.jpg', map:[76,27], desc:'舒适床高、圆角家具、无门槛动线与夜间感应照明，兼顾尊严、安静和长期安全。', mats:['浅橡木饰面','柔软织物','防眩光照明'], links:[['elder-ensuite',18,43,'进入独立卫浴'],['living',64,68,'前往客厅']] },
+    { id:'elder-ensuite', name:'老人房独立卫浴', zone:'长辈套房', image:'assets/tour-web/elder-ensuite.jpg', map:[72,41], desc:'无门槛淋浴、坐凳与扶手被自然融入极简空间，使用防滑石材和温和的木色。', mats:['防滑石材','微水泥','拉丝古铜'], links:[['elder-bedroom',14,56,'返回老人房']] },
+    { id:'kitchen', name:'厨房', zone:'家务区', image:'assets/tour-web/kitchen.jpg', map:[62,74], desc:'紧凑而高效的柜体系统将电器和储物整合到顶，玻璃移门兼顾通透与控油烟。', mats:['暖白柜门','浅橡木高柜','暖白石英石'], links:[['dining',14,54,'返回餐厅'],['south-balcony',53,42,'进入生活阳台']] },
+    { id:'south-balcony', name:'南向生活阳台', zone:'家务区', image:'assets/tour-web/south-utility-balcony.jpg', map:[47,83], desc:'洗烘、清洁、扫地机器人和宠物设施被收纳进统一柜体，明亮且容易维护。', mats:['耐水木饰面','防滑砖','暖白石英石'], links:[['kitchen',14,46,'返回厨房']] },
+    { id:'secondary-bathroom', name:'次卫', zone:'次卧区', image:'assets/tour-web/secondary-bathroom.jpg', map:[34,69], desc:'狭长空间按洗漱、如厕、淋浴顺序展开，干湿分离但不压缩视觉宽度。', mats:['浅色水磨石','橡木浴室柜','烟熏木壁龛'], links:[['secondary-bedroom',26,60,'进入次卧'],['entry',75,60,'返回过道']] },
+    { id:'secondary-bedroom', name:'次卧', zone:'次卧区', image:'assets/tour-web/secondary-bedroom.jpg', map:[25,66], desc:'床、书桌和整墙储物形成完整成长型房间，橄榄绿只作为局部点缀。', mats:['浅橡木饰面','暖白柜体','低饱和橄榄绿'], links:[['secondary-bathroom',20,58,'前往次卫'],['entry',82,62,'返回过道']] },
+    { id:'primary-bedroom', name:'主卧', zone:'主卧套房', image:'assets/tour-web/primary-bedroom.jpg', map:[21,27], desc:'连续木饰面床头、柔软靠包与低位照明营造安静感，衣帽间入口保持清晰。', mats:['橡木护墙','胡桃木格栅','人字拼木地板'], links:[['walk-in-closet',76,46,'进入衣帽间'],['primary-bathroom',18,56,'进入主卫']] },
+    { id:'walk-in-closet', name:'衣帽间', zone:'主卧套房', image:'assets/tour-web/walk-in-closet.jpg', map:[34,30], desc:'封闭柜门与少量玻璃展示结合，梳妆位嵌入柜体，中央过道不被岛台占用。', mats:['浅橡木柜门','烟熏玻璃','拉丝古铜'], links:[['primary-bedroom',19,46,'返回主卧'],['primary-bathroom',80,46,'前往主卫']] },
+    { id:'primary-bathroom', name:'主卫', zone:'主卧套房', image:'assets/tour-web/primary-bathroom.jpg', map:[23,44], desc:'双台盆、无门槛淋浴和整面镜柜统一在低对比石材中，保持安静、耐用和整洁。', mats:['暖灰石材','橡木浴室柜','拉丝古铜'], links:[['walk-in-closet',16,58,'返回衣帽间'],['primary-bedroom',76,58,'返回主卧']] }
+  ];
+
+  const byId = Object.fromEntries(scenes.map((s, i) => [s.id, { ...s, index:i }]));
+  const stage = root.querySelector('#zt-stage');
+  const imgA = root.querySelector('#zt-scene-a');
+  const imgB = root.querySelector('#zt-scene-b');
+  const title = root.querySelector('#zt-title');
+  const description = root.querySelector('#zt-description');
+  const materials = root.querySelector('#zt-materials');
+  const indexLabel = root.querySelector('#zt-index');
+  const totalLabel = root.querySelector('#zt-total');
+  const progress = root.querySelector('#zt-progress');
+  const hotspots = root.querySelector('#zt-hotspots');
+  const dock = root.querySelector('#zt-dock');
+  const plan = root.querySelector('#zt-plan');
+  const planPoints = root.querySelector('#zt-plan-points');
+  const planToggle = root.querySelector('#zt-plan-toggle');
+  const planClose = root.querySelector('#zt-plan-close');
+  const autoButton = root.querySelector('#zt-auto');
+  const lookHint = root.querySelector('#zt-look-hint');
+  let activeIndex = 0;
+  let front = imgA;
+  let back = imgB;
+  let autoTimer = null;
+  let isAuto = false;
+  let dragging = false;
+  let dragStart = null;
+  let pan = { x:0, y:0 };
+
+  totalLabel.textContent = String(scenes.length).padStart(2,'0');
+
+  function roomButton(scene, i) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'zt-room';
+    b.textContent = scene.name;
+    b.dataset.index = i;
+    b.addEventListener('click', () => show(i));
+    dock.appendChild(b);
+  }
+
+  function mapButton(scene, i) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'zt-map-point';
+    b.style.left = scene.map[0] + '%';
+    b.style.top = scene.map[1] + '%';
+    b.setAttribute('aria-label', scene.name);
+    b.dataset.index = i;
+    b.addEventListener('click', () => { show(i); closePlan(); });
+    planPoints.appendChild(b);
+  }
+
+  scenes.forEach((scene, i) => { roomButton(scene, i); mapButton(scene, i); });
+
+  function setSceneImage(image, scene) {
+    image.src = scene.image;
+    image.alt = scene.name + '家装效果图';
+    image.style.setProperty('--pan-x', '0%');
+    image.style.setProperty('--pan-y', '0%');
+  }
+
+  function renderHotspots(scene) {
+    hotspots.replaceChildren();
+    scene.links.forEach(([target, x, y, label]) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'zt-hotspot';
+      b.style.left = x + '%';
+      b.style.top = y + '%';
+      b.innerHTML = '<span class="zt-hotspot-dot" aria-hidden="true">›</span><span class="zt-hotspot-label"></span>';
+      b.querySelector('.zt-hotspot-label').textContent = label;
+      b.setAttribute('aria-label', label);
+      b.addEventListener('click', (event) => { event.stopPropagation(); show(byId[target].index); });
+      hotspots.appendChild(b);
+    });
+  }
+
+  function show(index, immediate = false) {
+    activeIndex = (index + scenes.length) % scenes.length;
+    const scene = scenes[activeIndex];
+    pan = { x:0, y:0 };
+    const incoming = back;
+    const outgoing = front;
+    const activate = () => {
+      outgoing.classList.remove('is-active','is-drifting');
+      incoming.classList.add('is-active','is-drifting');
+      front = incoming;
+      back = outgoing;
+    };
+    setSceneImage(incoming, scene);
+    incoming.onload = activate;
+    if (immediate || incoming.complete) activate();
+    title.textContent = scene.name;
+    description.textContent = scene.desc;
+    indexLabel.textContent = String(activeIndex + 1).padStart(2,'0');
+    progress.style.width = ((activeIndex + 1) / scenes.length * 100) + '%';
+    materials.replaceChildren(...scene.mats.map(text => { const s=document.createElement('span'); s.textContent=text; return s; }));
+    renderHotspots(scene);
+    root.querySelectorAll('.zt-room').forEach((b, i) => b.classList.toggle('is-active', i === activeIndex));
+    root.querySelectorAll('.zt-map-point').forEach((b, i) => b.classList.toggle('is-active', i === activeIndex));
+    const selected = dock.querySelector('[data-index="' + activeIndex + '"]');
+    if (selected) {
+      const left = selected.offsetLeft - dock.clientWidth / 2 + selected.offsetWidth / 2;
+      dock.scrollTo({ left: Math.max(0, left), behavior:'smooth' });
+    }
+    if (isAuto) restartAuto();
+  }
+
+  function openPlan() {
+    plan.classList.add('is-open');
+    plan.setAttribute('aria-hidden','false');
+    planToggle.setAttribute('aria-expanded','true');
+  }
+  function closePlan() {
+    plan.classList.remove('is-open');
+    plan.setAttribute('aria-hidden','true');
+    planToggle.setAttribute('aria-expanded','false');
+  }
+
+  function restartAuto() {
+    clearInterval(autoTimer);
+    if (!isAuto) return;
+    autoTimer = setInterval(() => show(activeIndex + 1), 7200);
+  }
+
+  function toggleAuto() {
+    isAuto = !isAuto;
+    autoButton.setAttribute('aria-pressed', String(isAuto));
+    autoButton.textContent = isAuto ? '暂停巡游' : '自动巡游';
+    restartAuto();
+  }
+
+  root.querySelector('#zt-prev').addEventListener('click', () => show(activeIndex - 1));
+  root.querySelector('#zt-next').addEventListener('click', () => show(activeIndex + 1));
+  planToggle.addEventListener('click', () => plan.classList.contains('is-open') ? closePlan() : openPlan());
+  planClose.addEventListener('click', closePlan);
+  autoButton.addEventListener('click', toggleAuto);
+  root.querySelector('#zt-fullscreen').addEventListener('click', () => {
+    if (!document.fullscreenElement) stage.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  });
+
+  stage.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('button, nav, aside')) return;
+    dragging = true;
+    dragStart = { x:event.clientX, y:event.clientY, panX:pan.x, panY:pan.y };
+    front.classList.remove('is-drifting');
+    stage.setPointerCapture?.(event.pointerId);
+    lookHint.style.opacity = '0';
+  });
+  stage.addEventListener('pointermove', (event) => {
+    if (!dragging || !dragStart) return;
+    const dx = (event.clientX - dragStart.x) / stage.clientWidth * 9;
+    const dy = (event.clientY - dragStart.y) / stage.clientHeight * 7;
+    pan.x = Math.max(-3.2, Math.min(3.2, dragStart.panX + dx));
+    pan.y = Math.max(-2.2, Math.min(2.2, dragStart.panY + dy));
+    front.style.setProperty('--pan-x', pan.x + '%');
+    front.style.setProperty('--pan-y', pan.y + '%');
+  });
+  const endDrag = () => { dragging = false; dragStart = null; };
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') show(activeIndex + 1);
+    if (event.key === 'ArrowLeft') show(activeIndex - 1);
+    if (event.key === 'Escape') closePlan();
+    if (event.key.toLowerCase() === 'm') openPlan();
+  });
+
+  setTimeout(() => { lookHint.style.opacity = '0'; }, 5200);
+  scenes.slice(1).forEach(scene => { const img = new Image(); img.src = scene.image; });
+  show(0, true);
+})();
+</script>
