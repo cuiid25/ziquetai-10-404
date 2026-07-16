@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1c1813">
-  <title>紫阙台10-404 · 暖木北欧沉浸漫游</title>
+  <title>紫阙台10-404 · B版皮革石材沉浸漫游</title>
 </head>
 <body>
-<div id="ziquetai-tour" class="zt-tour" aria-label="紫阙台10-404沉浸式整屋家装漫游">
+<div id="ziquetai-tour" class="zt-tour" aria-label="紫阙台10-404皮革石材版沉浸式整屋家装漫游">
   <div class="zt-stage" id="zt-stage">
     <img class="zt-scene zt-scene-a is-active" id="zt-scene-a" alt="" draggable="false">
     <img class="zt-scene zt-scene-b" id="zt-scene-b" alt="" draggable="false">
@@ -16,9 +16,10 @@
     <header class="zt-header">
       <div class="zt-brand">
         <span class="zt-kicker">ZI QUE TAI · 10-404</span>
-        <span class="zt-brand-name">全屋沉浸漫游</span>
+        <span class="zt-brand-name">B版 · 皮革石材</span>
       </div>
       <div class="zt-actions">
+        <a class="zt-action" href="index.html">切换版本</a>
         <button type="button" class="zt-action" id="zt-auto" aria-pressed="false">自动巡游</button>
         <button type="button" class="zt-action" id="zt-plan-toggle" aria-expanded="false">平面导航</button>
         <button type="button" class="zt-action" id="zt-fullscreen">全屏参观</button>
@@ -26,7 +27,7 @@
     </header>
 
     <section class="zt-copy" aria-live="polite">
-      <div class="zt-count"><span id="zt-index">01</span> / <span id="zt-total">13</span></div>
+      <div class="zt-count"><span id="zt-index">01</span> / <span id="zt-total">14</span></div>
       <h1 id="zt-title">入户玄关</h1>
       <p id="zt-description"></p>
       <div class="zt-materials" id="zt-materials"></div>
@@ -51,7 +52,7 @@
         <img src="assets/designer-plan.jpg" alt="紫阙台10-404设计师平面布置图">
         <div id="zt-plan-points"></div>
       </div>
-      <p class="zt-plan-note">效果图用于空间氛围与材质方向确认；墙体、门洞和施工尺寸仍以原始 CAD 与最终施工图为准。</p>
+      <p class="zt-plan-note">效果图用于空间氛围与材质方向确认；墙体、门洞和施工尺寸仍以原始 CAD 与最终施工图为准。雪茄柜、自动上下水扫地机器人须按最终型号复核散热、检修、电源、进水和排水条件。</p>
     </aside>
 
     <nav class="zt-dock" id="zt-dock" aria-label="房间列表"></nav>
@@ -148,6 +149,9 @@
   #ziquetai-tour button { font: inherit; }
   #ziquetai-tour .zt-action,
   #ziquetai-tour .zt-plan-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--zt-line);
     background: var(--zt-glass);
     color: var(--zt-ivory);
@@ -155,6 +159,7 @@
     min-height: 38px;
     padding: 0 15px;
     cursor: pointer;
+    text-decoration: none;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
@@ -390,19 +395,20 @@
   if (!root) return;
 
   const scenes = [
-    { id:'entry', name:'入户玄关', zone:'公共区', image:'assets/tour-web/entry.jpg', map:[67,54], desc:'木饰面收纳贴墙展开，中央过道完整保留；从入户即可看见餐厅与客厅的自然采光。', mats:['浅橡木饰面','暖灰石材','烟熏胡桃木'], links:[['dining',72,58,'进入餐厅'],['living',83,42,'前往客厅']] },
-    { id:'dining', name:'餐厅', zone:'公共区', image:'assets/tour-web/dining.jpg', map:[50,64], desc:'六人餐桌连接客厅与厨房，整墙餐边柜承担收纳，灯光与木色保持克制。', mats:['烟熏胡桃木','浅橡木柜体','奶油吊灯'], links:[['living',24,45,'进入客厅'],['kitchen',76,46,'进入厨房']] },
-    { id:'living', name:'客厅', zone:'公共区', image:'assets/tour-web/living.jpg', map:[59,28], desc:'以木饰面电视墙、奶油模块沙发和低饱和织物建立主空间，通往北阳台的路线保持通透。', mats:['胡桃木饰面','奶油织物','暖灰石材'], links:[['north-balcony',52,43,'走向北阳台'],['dining',18,70,'返回餐厅']] },
-    { id:'north-balcony', name:'北向休闲阳台', zone:'公共区', image:'assets/tour-web/north-balcony.jpg', map:[58,8], desc:'长条浅进深阳台以轻量座椅和端景植物为主，不堆砌家具，保留整面采光。', mats:['暖灰石材','浅橡木花箱','户外编织'], links:[['living',17,52,'回到客厅']] },
-    { id:'elder-bedroom', name:'老人房', zone:'长辈套房', image:'assets/tour-web/elder-bedroom.jpg', map:[76,27], desc:'舒适床高、圆角家具、无门槛动线与夜间感应照明，兼顾尊严、安静和长期安全。', mats:['浅橡木饰面','柔软织物','防眩光照明'], links:[['elder-ensuite',18,43,'进入独立卫浴'],['living',64,68,'前往客厅']] },
-    { id:'elder-ensuite', name:'老人房独立卫浴', zone:'长辈套房', image:'assets/tour-web/elder-ensuite.jpg', map:[72,41], desc:'无门槛淋浴、坐凳与扶手被自然融入极简空间，使用防滑石材和温和的木色。', mats:['防滑石材','微水泥','拉丝古铜'], links:[['elder-bedroom',14,56,'返回老人房']] },
-    { id:'kitchen', name:'厨房', zone:'家务区', image:'assets/tour-web/kitchen.jpg', map:[62,74], desc:'紧凑而高效的柜体系统将电器和储物整合到顶，玻璃移门兼顾通透与控油烟。', mats:['暖白柜门','浅橡木高柜','暖白石英石'], links:[['dining',14,54,'返回餐厅'],['south-balcony',53,42,'进入生活阳台']] },
-    { id:'south-balcony', name:'南向生活阳台', zone:'家务区', image:'assets/tour-web/south-utility-balcony.jpg', map:[47,83], desc:'洗烘、清洁、扫地机器人和宠物设施被收纳进统一柜体，明亮且容易维护。', mats:['耐水木饰面','防滑砖','暖白石英石'], links:[['kitchen',14,46,'返回厨房']] },
-    { id:'secondary-bathroom', name:'次卫', zone:'次卧区', image:'assets/tour-web/secondary-bathroom.jpg', map:[34,69], desc:'狭长空间按洗漱、如厕、淋浴顺序展开，干湿分离但不压缩视觉宽度。', mats:['浅色水磨石','橡木浴室柜','烟熏木壁龛'], links:[['secondary-bedroom',26,60,'进入次卧'],['entry',75,60,'返回过道']] },
-    { id:'secondary-bedroom', name:'次卧', zone:'次卧区', image:'assets/tour-web/secondary-bedroom.jpg', map:[25,66], desc:'床、书桌和整墙储物形成完整成长型房间，橄榄绿只作为局部点缀。', mats:['浅橡木饰面','暖白柜体','低饱和橄榄绿'], links:[['secondary-bathroom',20,58,'前往次卫'],['entry',82,62,'返回过道']] },
-    { id:'primary-bedroom', name:'主卧', zone:'主卧套房', image:'assets/tour-web/primary-bedroom.jpg', map:[21,27], desc:'连续木饰面床头、柔软靠包与低位照明营造安静感，衣帽间入口保持清晰。', mats:['橡木护墙','胡桃木格栅','人字拼木地板'], links:[['walk-in-closet',76,46,'进入衣帽间'],['primary-bathroom',18,56,'进入主卫']] },
-    { id:'walk-in-closet', name:'衣帽间', zone:'主卧套房', image:'assets/tour-web/walk-in-closet.jpg', map:[34,30], desc:'封闭柜门与少量玻璃展示结合，梳妆位嵌入柜体，中央过道不被岛台占用。', mats:['浅橡木柜门','烟熏玻璃','拉丝古铜'], links:[['primary-bedroom',19,46,'返回主卧'],['primary-bathroom',80,46,'前往主卫']] },
-    { id:'primary-bathroom', name:'主卫', zone:'主卧套房', image:'assets/tour-web/primary-bathroom.jpg', map:[23,44], desc:'双台盆、无门槛淋浴和整面镜柜统一在低对比石材中，保持安静、耐用和整洁。', mats:['暖灰石材','橡木浴室柜','拉丝古铜'], links:[['walk-in-closet',16,58,'返回衣帽间'],['primary-bedroom',76,58,'返回主卧']] }
+    { id:'entry', name:'入户玄关', zone:'公共区', image:'assets/tour-leather-stone/entry.jpg', map:[67,54], desc:'暖灰亮面柜体、洞石与古铜镜面形成克制的入户秩序；鞋帽收纳贴墙展开，中央走廊完整保留。', mats:['暖灰烤漆','洞石','香槟古铜'], links:[['dining',72,58,'进入餐厅'],['living',83,42,'前往客厅']] },
+    { id:'dining', name:'餐厅', zone:'公共区', image:'assets/tour-leather-stone/dining.jpg', map:[50,64], desc:'椭圆大理石餐桌与皮革餐椅建立高级但安静的用餐氛围，餐边柜以烤漆和烟熏玻璃替代实木家具。', mats:['天然大理石','头层皮革','烟熏玻璃'], links:[['living',24,45,'进入客厅'],['kitchen',76,46,'进入厨房'],['storage-room',44,70,'前往杂物间']] },
+    { id:'living', name:'客厅', zone:'公共区', image:'assets/tour-leather-stone/living.jpg', map:[59,28], desc:'象牙白皮革模块沙发、焦糖色单椅与大理石茶几构成公共区核心，石材电视墙保持整体感并减少零散家具。', mats:['象牙白皮革','焦糖色皮革','大理石'], links:[['north-balcony',52,43,'走向北阳台'],['dining',18,70,'返回餐厅']] },
+    { id:'north-balcony', name:'北向休闲阳台', zone:'公共区', image:'assets/tour-leather-stone/north-balcony.jpg', map:[58,8], desc:'轻量金属编织休闲椅与洞石边几控制体量，不遮挡北向采光，也避免厚重实木家具。', mats:['户外编织','香槟金属','洞石'], links:[['living',17,52,'回到客厅']] },
+    { id:'elder-bedroom', name:'老人房', zone:'长辈套房', image:'assets/tour-leather-stone/elder-bedroom.jpg', map:[76,27], desc:'软包皮革床、圆角石材边几和无门槛动线兼顾舒适与安全，夜间照明低位连续且防眩。', mats:['哑光皮革','洞石','防眩光照明'], links:[['elder-ensuite',18,43,'进入独立卫浴'],['living',64,68,'前往客厅']] },
+    { id:'elder-ensuite', name:'老人房独立卫浴', zone:'长辈套房', image:'assets/tour-leather-stone/elder-ensuite.jpg', map:[72,41], desc:'无门槛淋浴、坐凳与扶手融入浅色石材系统，减少拼缝与高差，保留安全转身空间。', mats:['防滑石材','暖灰烤漆','香槟五金'], links:[['elder-bedroom',14,56,'返回老人房']] },
+    { id:'kitchen', name:'厨房', zone:'家务区', image:'assets/tour-leather-stone/kitchen.jpg', map:[62,74], desc:'暖灰烤漆高柜将电器整合到顶，大理石纹墙面与香槟五金提升质感，玻璃移门兼顾通透与控油烟。', mats:['暖灰烤漆','石英岩','香槟五金'], links:[['dining',14,54,'返回餐厅'],['south-balcony',53,42,'进入生活阳台'],['storage-room',28,66,'前往杂物间']] },
+    { id:'storage-room', name:'杂物间', zone:'家务区', image:'assets/tour-leather-stone/storage-room.jpg', map:[39,66], desc:'1.8米高恒温恒湿雪茄柜与清洁收纳并列；自动上下水扫地机器人藏入下柜，检修口、进排水与电源集中预留。', mats:['烟熏玻璃','雪松层架','暖灰烤漆'], links:[['dining',38,48,'返回餐厅'],['kitchen',74,50,'前往厨房']] },
+    { id:'south-balcony', name:'南向生活阳台', zone:'家务区', image:'assets/tour-leather-stone/south-utility-balcony.jpg', map:[47,83], desc:'洗烘、清洁池与晾晒系统被统一纳入耐水烤漆柜体；机器人基站集中放在杂物间，阳台保持清爽。', mats:['耐水烤漆','防滑石材','石英石'], links:[['kitchen',14,46,'返回厨房']] },
+    { id:'secondary-bathroom', name:'次卫', zone:'次卧区', image:'assets/tour-leather-stone/secondary-bathroom.jpg', map:[34,69], desc:'洗漱、如厕与淋浴沿狭长动线有序展开，浅色大理石与暖灰柜体降低视觉切割。', mats:['浅色大理石','暖灰烤漆','香槟五金'], links:[['secondary-bedroom',26,60,'进入次卧'],['entry',75,60,'返回过道']] },
+    { id:'secondary-bedroom', name:'次卧', zone:'次卧区', image:'assets/tour-leather-stone/secondary-bedroom.jpg', map:[25,66], desc:'皮革软包床、悬浮石材书桌与整墙烤漆收纳形成完整居住功能，低饱和橄榄绿仅作局部点缀。', mats:['细纹皮革','浅色大理石','暖灰烤漆'], links:[['secondary-bathroom',20,58,'前往次卫'],['entry',82,62,'返回过道']] },
+    { id:'primary-bedroom', name:'主卧', zone:'主卧套房', image:'assets/tour-leather-stone/primary-bedroom.jpg', map:[21,27], desc:'象牙白皮革床、暖灰软包墙面与浅色大理石构成低对比套房，衣帽间入口与床边通道保持清晰。', mats:['象牙白皮革','大理石','暖灰软包'], links:[['walk-in-closet',76,46,'进入衣帽间'],['primary-bathroom',18,56,'进入主卫']] },
+    { id:'walk-in-closet', name:'衣帽间', zone:'主卧套房', image:'assets/tour-leather-stone/walk-in-closet.jpg', map:[34,30], desc:'烟熏玻璃柜门、香槟金属框与皮革抽屉内衬建立展示感，小型大理石中岛控制尺度并保留双侧通行。', mats:['烟熏玻璃','皮革内衬','奶油大理石'], links:[['primary-bedroom',19,46,'返回主卧'],['primary-bathroom',80,46,'前往主卫']] },
+    { id:'primary-bathroom', name:'主卫', zone:'主卧套房', image:'assets/tour-leather-stone/primary-bathroom.jpg', map:[23,44], desc:'双台盆、整面浅色大理石与无门槛淋浴统一在同一材质体系，暖灰悬浮浴室柜让空间更轻。', mats:['奶油大理石','暖灰烤漆','香槟五金'], links:[['walk-in-closet',16,58,'返回衣帽间'],['primary-bedroom',76,58,'返回主卧']] }
   ];
 
   const byId = Object.fromEntries(scenes.map((s, i) => [s.id, { ...s, index:i }]));
