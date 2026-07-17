@@ -144,6 +144,25 @@
       font-size: 11px;
       line-height: 1.65;
     }
+    .archive {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 18px;
+      color: rgba(244,238,229,.5);
+      font-size: 12px;
+    }
+    .archive a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      color: rgba(244,238,229,.78);
+      text-decoration: none;
+    }
     @media (max-width: 760px) {
       main { width: min(100% - 24px, 620px); padding-top: 34px; }
       header { align-items: start; flex-direction: column; margin-bottom: 23px; }
@@ -170,7 +189,7 @@
       <a class="version" href="tour-warm-nordic.html">
         <img src="assets/tour-web/living.jpg" alt="暖木北欧版客厅预览">
         <div class="version-content">
-          <span class="tag">A版 · 已保留</span>
+          <span class="tag">A版 · 手机全貌模式</span>
           <h2>暖木北欧</h2>
           <p>浅木饰面、奶油织物与低饱和色彩，温暖放松，适合偏自然的居住氛围。</p>
           <span class="enter">进入漫游 <span aria-hidden="true">›</span></span>
@@ -180,13 +199,19 @@
       <a class="version" href="tour-leather-stone.html">
         <img src="assets/tour-leather-stone/living.jpg" alt="皮革石材版客厅预览">
         <div class="version-content">
-          <span class="tag">B版 · 新增杂物间</span>
+          <span class="tag">B版 · 手机全貌模式</span>
           <h2>皮革石材</h2>
           <p>皮革、大理石、暖灰烤漆与烟熏玻璃为主；新增杂物间视角、1.8米雪茄柜及自动上下水扫地机器人。</p>
           <span class="enter">进入漫游 <span aria-hidden="true">›</span></span>
         </div>
       </a>
     </section>
+
+    <nav class="archive" aria-label="原尺寸版本存档">
+      <span>原尺寸版本存档</span>
+      <a href="tour-warm-nordic-original.html">A版原尺寸</a>
+      <a href="tour-leather-stone-original.html">B版原尺寸</a>
+    </nav>
 
     <footer>效果图用于空间氛围、材质和家具方向确认；施工尺寸、设备散热、检修、电源及给排水条件仍须按最终产品型号与施工图复核。</footer>
   </main>

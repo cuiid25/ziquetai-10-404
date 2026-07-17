@@ -9,7 +9,6 @@
 <body>
 <div id="ziquetai-tour" class="zt-tour" aria-label="紫阙台10-404皮革石材版沉浸式整屋家装漫游">
   <div class="zt-stage" id="zt-stage">
-    <img class="zt-backdrop" id="zt-backdrop" alt="" aria-hidden="true" draggable="false">
     <img class="zt-scene zt-scene-a is-active" id="zt-scene-a" alt="" draggable="false">
     <img class="zt-scene zt-scene-b" id="zt-scene-b" alt="" draggable="false">
     <div class="zt-shade" aria-hidden="true"></div>
@@ -105,20 +104,6 @@
     transform: translate3d(var(--pan-x, 0%), var(--pan-y, 0%), 0) scale(1.055);
     transition: opacity .9s ease, transform 1.2s cubic-bezier(.2,.7,.2,1);
     will-change: opacity, transform;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  #ziquetai-tour .zt-backdrop {
-    display: none;
-    position: absolute;
-    inset: -8%;
-    z-index: 0;
-    width: 116%;
-    height: 116%;
-    object-fit: cover;
-    filter: blur(30px) brightness(.52) saturate(.82);
-    transform: scale(1.08);
     pointer-events: none;
   }
 
@@ -372,48 +357,27 @@
   #ziquetai-tour .zt-map-point:focus-visible::after { opacity: 1; }
   #ziquetai-tour .zt-plan-note { margin: 14px 2px 0; color: rgba(255,255,255,.62); font-size: 12px; line-height: 1.7; }
 
-  @media (max-width: 720px), (max-height: 520px) {
-    #ziquetai-tour .zt-stage { min-height: 100svh; overflow: clip; }
-    #ziquetai-tour .zt-backdrop { display: block; }
-    #ziquetai-tour .zt-scene {
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transform: none !important;
-    }
-    #ziquetai-tour .zt-scene.is-drifting { animation: none; }
-    #ziquetai-tour .zt-shade {
-      background:
-        linear-gradient(180deg, rgba(7,6,4,.68) 0%, rgba(7,6,4,.18) 24%, transparent 42%),
-        linear-gradient(0deg, rgba(7,6,4,.82) 0%, rgba(7,6,4,.30) 28%, transparent 45%);
-    }
-    #ziquetai-tour .zt-header { padding: max(14px, env(safe-area-inset-top)) 14px 0; align-items: flex-start; }
+  @media (max-width: 720px) {
+    #ziquetai-tour .zt-stage { min-height: 560px; }
+    #ziquetai-tour .zt-header { padding: 16px; align-items: flex-start; }
     #ziquetai-tour .zt-kicker { font-size: 9px; letter-spacing: .08em; white-space: nowrap; }
     #ziquetai-tour .zt-brand-name { font-size: 14px; }
     #ziquetai-tour .zt-actions { max-width: 205px; gap: 5px; }
     #ziquetai-tour .zt-action { min-height: 34px; padding: 0 10px; font-size: 11px; }
-    #ziquetai-tour .zt-copy { left: 16px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: calc(100vw - 32px); }
-    #ziquetai-tour .zt-copy h1 { margin: 5px 0 6px; font-size: 31px; }
-    #ziquetai-tour .zt-copy p { max-width: 100%; font-size: 12px; line-height: 1.5; }
+    #ziquetai-tour .zt-copy { left: 20px; bottom: 118px; max-width: calc(100vw - 40px); }
+    #ziquetai-tour .zt-copy h1 { font-size: 37px; }
+    #ziquetai-tour .zt-copy p { max-width: 88vw; line-height: 1.55; }
     #ziquetai-tour .zt-materials { display: none; }
     #ziquetai-tour .zt-arrow { top: 48%; width: 40px; height: 40px; font-size: 28px; }
     #ziquetai-tour .zt-prev { left: 10px; }
     #ziquetai-tour .zt-next { right: 10px; }
-    #ziquetai-tour .zt-hotspots,
-    #ziquetai-tour .zt-look-hint { display: none; }
-    #ziquetai-tour .zt-dock { padding: 0 12px; bottom: calc(12px + env(safe-area-inset-bottom)); }
-    #ziquetai-tour .zt-room { min-height: 36px; padding: 0 11px; font-size: 12px; }
+    #ziquetai-tour .zt-hotspots { inset: 86px 28px 120px; }
+    #ziquetai-tour .zt-hotspot-label { display: none; }
+    #ziquetai-tour .zt-hotspot-dot { width: 36px; height: 36px; }
+    #ziquetai-tour .zt-look-hint { top: 72px; }
+    #ziquetai-tour .zt-dock { padding: 0 14px; bottom: 16px; }
+    #ziquetai-tour .zt-room { min-height: 39px; padding: 0 12px; font-size: 12px; }
     #ziquetai-tour .zt-plan { padding: 18px; }
-  }
-
-  @media (max-height: 520px) and (min-width: 721px) {
-    #ziquetai-tour .zt-scene { inset: 52px 0 48px; height: calc(100% - 100px); }
-    #ziquetai-tour .zt-header { padding: 9px 12px 0; }
-    #ziquetai-tour .zt-actions { max-width: none; flex-wrap: nowrap; }
-    #ziquetai-tour .zt-copy { display: none; }
-    #ziquetai-tour .zt-dock { bottom: 7px; }
-    #ziquetai-tour .zt-room { min-height: 33px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -449,7 +413,6 @@
 
   const byId = Object.fromEntries(scenes.map((s, i) => [s.id, { ...s, index:i }]));
   const stage = root.querySelector('#zt-stage');
-  const backdrop = root.querySelector('#zt-backdrop');
   const imgA = root.querySelector('#zt-scene-a');
   const imgB = root.querySelector('#zt-scene-b');
   const title = root.querySelector('#zt-title');
@@ -526,9 +489,7 @@
 
   function show(index, immediate = false) {
     activeIndex = (index + scenes.length) % scenes.length;
-    stage.scrollTop = 0;
     const scene = scenes[activeIndex];
-    backdrop.src = scene.image;
     pan = { x:0, y:0 };
     const incoming = back;
     const outgoing = front;
