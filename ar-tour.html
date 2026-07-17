@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#171611">
+  <meta name="description" content="紫阙台10-404手机AR实景叠加与电脑方向键3D整屋看房">
+  <title>紫阙台10-404 · AR实景整屋看房</title>
+  <link rel="stylesheet" href="ar-tour.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main class="ar-shell" id="ar-shell" data-palette="lime" aria-label="紫阙台10-404 AR实景整屋看房">
+    <video id="ar-camera" playsinline muted aria-hidden="true"></video>
+    <canvas id="ar-canvas" aria-label="可使用方向键和WASD浏览，也可叠加手机摄像头实景的三维户型"></canvas>
+    <div class="hud">
+      <header class="topbar">
+        <div class="brand"><span class="eyebrow">ZI QUE TAI · 10-404</span><strong>AR 实景整屋看房</strong></div>
+        <nav class="top-actions">
+          <a class="button" href="index.html">返回版本</a>
+          <button class="button active" id="palette-lime" type="button">奶油青柠</button>
+          <button class="button" id="palette-sage" type="button">奶油鼠尾草</button>
+          <button class="button primary" id="ar-mode" type="button">进入AR实景</button>
+          <button class="button" id="start-walk" type="button">电脑3D行走</button>
+          <button class="button" id="fullscreen" type="button">全屏</button>
+        </nav>
+      </header>
+
+      <section class="guide" aria-live="polite">
+        <strong id="room-name">入户玄关</strong>
+        <span class="near" id="room-hint">按 Enter 查看当前空间的高清效果图</span>
+        <span id="control-help">手机点“进入AR实景”叠加摄像头；电脑可用方向键/WASD行走，鼠标环视。</span>
+      </section>
+
+      <aside class="map-wrap" aria-label="小地图">
+        <span>LIVE FLOOR MAP</span>
+        <canvas id="minimap" width="344" height="344"></canvas>
+      </aside>
+
+      <div class="crosshair" aria-hidden="true"></div>
+      <div class="touch-controls" aria-label="手机移动控制">
+        <button data-key="up" type="button" aria-label="前进">↑</button>
+        <button data-key="left" type="button" aria-label="左转">↶</button>
+        <button data-key="down" type="button" aria-label="后退">↓</button>
+        <button data-key="right" type="button" aria-label="右转">↷</button>
+      </div>
+      <button class="button primary open-room-mobile" id="open-room-mobile" type="button">查看空间</button>
+
+      <a class="license" href="https://threejs.org/docs/pages/ARButton.html" target="_blank" rel="noreferrer">Three.js AR · MIT</a>
+      <output id="debug-state" aria-hidden="true"></output>
+    </div>
+
+    <div class="loading" id="loading">
+      <div><i aria-hidden="true"></i><span>正在搭建实时三维空间</span></div>
+    </div>
+
+    <aside class="scene-modal" id="scene-modal" aria-hidden="true">
+      <div class="scene-card">
+        <img id="scene-image" alt="">
+        <div class="scene-caption"><strong id="scene-name"></strong><span>当前配色高清效果</span></div>
+        <button class="scene-close" id="scene-close" type="button" aria-label="关闭效果图">×</button>
+      </div>
+    </aside>
+  </main>
+  <script type="module" src="ar-tour.js"></script>
+</body>
+</html>

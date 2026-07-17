@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#171513">
-  <meta name="description" content="正荣滨江紫阙台10-404整屋沉浸式家装效果漫游，两套设计方案可选">
+  <meta name="description" content="正荣滨江紫阙台10-404整屋家装效果、手机AR实景叠加及电脑方向键3D看房，四套设计方案可选">
   <title>紫阙台10-404 · 整屋沉浸漫游</title>
   <style>
     :root {
@@ -144,6 +144,55 @@
       font-size: 11px;
       line-height: 1.65;
     }
+    .ar-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 18px;
+      padding: clamp(24px, 4vw, 42px);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 82% 32%, rgba(184,177,95,.25), transparent 34%),
+        linear-gradient(135deg, #28241e, #1c1a16);
+      color: inherit;
+      text-decoration: none;
+    }
+    .ar-entry::after {
+      content: "";
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      right: 5%;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 38px rgba(255,255,255,.025), inset 0 0 0 76px rgba(255,255,255,.018);
+    }
+    .ar-entry > * { position: relative; z-index: 1; }
+    .ar-entry h2 { margin-top: 8px; }
+    .ar-entry p { max-width: 680px; margin: 0; color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.75; }
+    .ar-controls {
+      justify-self: end;
+      display: grid;
+      grid-template-columns: repeat(3, 48px);
+      grid-template-rows: repeat(2, 48px);
+      gap: 7px;
+    }
+    .ar-controls span {
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 13px;
+      background: rgba(255,255,255,.06);
+      font-size: 19px;
+    }
+    .ar-controls span:first-child { grid-column: 2; }
+    .ar-controls span:nth-child(2) { grid-column: 1; grid-row: 2; }
+    .ar-controls span:nth-child(3) { grid-column: 2; grid-row: 2; }
+    .ar-controls span:nth-child(4) { grid-column: 3; grid-row: 2; }
     .archive {
       display: flex;
       align-items: center;
@@ -169,6 +218,8 @@
       header p { max-width: 100%; }
       .versions { grid-template-columns: 1fr; }
       .version { min-height: 66vh; border-radius: 20px; }
+      .ar-entry { grid-template-columns: 1fr; border-radius: 20px; }
+      .ar-controls { justify-self: start; }
     }
     @media (prefers-reduced-motion: reduce) {
       .version img { transition: none; }
@@ -182,7 +233,7 @@
         <span class="eyebrow">ZI QUE TAI · 10-404</span>
         <h1>选择整屋设计版本</h1>
       </div>
-      <p>两套方案均保留原平面关系与主要通行路线。点击任一版本，可在手机或电脑上逐空间参观。</p>
+      <p>四套方案均保留原平面关系与主要通行路线。手机可进入AR实景叠加；电脑可用方向键或WASD在三维户型中行走。</p>
     </header>
 
     <section class="versions" aria-label="整屋设计版本">
@@ -205,7 +256,37 @@
           <span class="enter">进入漫游 <span aria-hidden="true">›</span></span>
         </div>
       </a>
+
+      <a class="version" href="tour-cream-lime.html">
+        <img src="assets/tour-cream-lime/living.jpg" alt="奶油青柠版客厅预览">
+        <div class="version-content">
+          <span class="tag">C版 · 新配色 · 14个空间</span>
+          <h2>奶油青柠</h2>
+          <p>暖奶油、柔和青柠灰绿、奶油大理石与香槟金；明快但不幼稚，家具以皮革和石材为主。</p>
+          <span class="enter">查看整屋效果 <span aria-hidden="true">›</span></span>
+        </div>
+      </a>
+
+      <a class="version" href="tour-cream-sage.html">
+        <img src="assets/tour-cream-sage/living.jpg" alt="奶油鼠尾草版客厅预览">
+        <div class="version-content">
+          <span class="tag">D版 · 新配色 · 14个空间</span>
+          <h2>奶油鼠尾草</h2>
+          <p>奶油杏色、灰调鼠尾草绿、洞石与香槟金；更安静、成熟，适合整屋长期居住。</p>
+          <span class="enter">查看整屋效果 <span aria-hidden="true">›</span></span>
+        </div>
+      </a>
     </section>
+
+    <a class="ar-entry" href="ar-tour.html">
+      <div>
+        <span class="eyebrow">AR LIVE VIEW + REAL-TIME 3D</span>
+        <h2>进入AR实景看房</h2>
+        <p>手机调用后置摄像头，把三维方案叠加到真实环境；支持 WebXR 的设备直接进入空间追踪AR。电脑仍可使用方向键/WASD行走、鼠标环视。</p>
+        <span class="enter">进入AR实景 <span aria-hidden="true">›</span></span>
+      </div>
+      <div class="ar-controls" aria-hidden="true"><span>↑</span><span>←</span><span>↓</span><span>→</span></div>
+    </a>
 
     <nav class="archive" aria-label="原尺寸版本存档">
       <span>原尺寸版本存档</span>
